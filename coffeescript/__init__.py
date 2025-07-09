@@ -2,7 +2,10 @@
 # -*- coding: ascii -*-
 from __future__ import division, unicode_literals, print_function
 
-import pkg_resources
+try:
+    from importlib.resources import files
+except ImportError:
+    from importlib_resources import files
 
 # Copyright (c) 2011 Omoto Kenji
 # Released under the MIT license. See `LICENSE` for details.
@@ -116,9 +119,7 @@ def get_compiler_script():
     '''returns a CoffeeScript compiler script in JavaScript.
     which is used in coffeescript.compile() and coffeescript.compile_file()
     '''
-    return pkg_resources.resource_string(
-        'coffeescript', 'coffeescript.js').decode('utf-8')
-
+    return files('coffeescript').joinpath('coffeescript.js').read_text(encoding='utf-8')
 
 def get_runtime():
     '''returns an appropriate instance of execjs.Runtime
